@@ -1,0 +1,71 @@
+package sort;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class MergeSort {
+	
+	public static void merge(ArrayList<Integer> a, int start, int end, int half){
+		int i, j, k;
+		
+		int[] left = new int[(half+1) - start];
+		int[] right = new int[end - half];
+		
+		for(i=0; i<left.length; i++){
+			left[i] = a.get(start+i);
+		}
+		for(j=0; j<right.length; j++){
+			right[j] = a.get(half+1+j);
+		}
+		
+		for(i=0, j=0, k=start; i<left.length && j<right.length; k++ ){
+			if(left[i] < right[j]){
+				a.set(k, left[i]);
+				i++;
+			}
+			else{
+				a.set(k,  right[j]);
+				j++;
+			}
+		}
+		
+		for(; i<left.length; i++, k++){
+			a.set(k, left[i]);
+		}
+		for(; j<right.length; j++, k++){
+			a.set(k, right[j]);
+		}
+	}
+	
+	public static void mergeSort(ArrayList<Integer> a, int start, int end){
+			
+		if(start < end){
+			int half = (start + end) / 2;
+			mergeSort(a, start, half);
+			mergeSort(a, half +1, end);
+			merge(a, start, end, half);
+		}
+	}
+
+	public static void main(String[] args) {
+		Scanner keyboard = new Scanner(System.in);
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		int i;
+		int first;
+		int value;
+		
+		first = keyboard.nextInt();
+		
+		for(i=0; i<first; i++){
+			value = keyboard.nextInt();
+			a.add(value);
+		}
+		
+		mergeSort(a, 0, a.size()-1);
+		
+		for(i=0;i<a.size() ;i++){
+			System.out.println(a.get(i));
+		}
+		
+	}
+}

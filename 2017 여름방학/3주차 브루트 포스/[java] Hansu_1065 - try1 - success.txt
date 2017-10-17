@@ -1,0 +1,35 @@
+package bruteforce;
+
+import java.util.Scanner;
+
+public class Hansu_1065 {
+
+	public static void main(String[] args) {
+			Scanner keyboard = new Scanner(System.in);
+			int N = keyboard.nextInt();
+			
+			if(N <= 99){
+				System.out.println(N);
+				return;
+			}
+			
+			int sum = 99;
+			boolean TF;
+			
+			for(int i=100; i<=N; i++){
+				
+				TF = true;
+				char[] K = String.valueOf(i).toCharArray();
+				
+				for(int j=0; j<K.length-2; j++){
+					if((K[j]-K[j+1]) != K[j+1] - K[j+2]){
+						TF = false;
+						break;
+					}
+				}
+				if(TF)
+					sum++;
+			}
+			System.out.println(sum);
+	}
+}

@@ -1,0 +1,44 @@
+package dynamicProgramming;
+
+import java.io.BufferedWriter;
+import java.io.OutputStreamWriter;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
+public class Fibonacci {
+
+
+	private static int[][] fibo = new int[41][2];
+	
+	public static void main(String[] args) throws IOException {
+		
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter print = new BufferedWriter(new OutputStreamWriter(System.out));
+		
+		int N = Integer.parseInt(keyboard.readLine());
+		int i, n;
+		fibo[0][0] = 1;
+		fibo[0][1] = 0;
+		fibo[1][0] = 0;
+		fibo[1][1] = 1;
+		
+		for(i = 0; i<N; i++){
+			n = Integer.parseInt(keyboard.readLine());
+			fibo[n][0] = dynamic(fibo, n, 0);
+			fibo[n][1] = dynamic(fibo, n, 1);
+			print.write(fibo[n][0] + " " + fibo[n][1] + "\n");
+		}
+		keyboard.close();
+		print.close();
+	}
+	
+	public static int dynamic(int[][] fibo, int n, int k){
+		if(fibo[n][k] ==0 && n!=0 && n!=1){
+			fibo[n][k] = dynamic(fibo, n-1, k) + dynamic(fibo, n-2, k);
+		}
+		
+		return fibo[n][k];
+	}
+	
+}

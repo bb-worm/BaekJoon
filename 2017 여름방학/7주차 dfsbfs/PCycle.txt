@@ -1,0 +1,73 @@
+package dfsbfs;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class PCycle {
+	
+	static ArrayList<Integer> list = new ArrayList<Integer>();
+	static int result;
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		
+		int i, j;
+		int T = Integer.parseInt(keyboard.readLine());
+		
+		for(i=0; i<T; i++){
+			
+			// 배열에 넣기
+			result = 0;
+			int N = Integer.parseInt(keyboard.readLine());
+			Node[] graph = new Node[N+1];
+			String[] str = keyboard.readLine().split(" ");
+			for(j=1; j<=N; j++){
+				graph[j] = new Node(Integer.parseInt(str[j-1]));
+				list.add(j);
+			}
+			
+			//탐색 시작
+			do{
+				search(list.get(0), graph);
+			}while(list.size() > 0);
+			
+			System.out.println(result);
+		}
+	}
+	
+	public static void search(int nodeNum, Node[] graph){
+		if(graph[nodeNum].getVisit()){
+			result++;
+			return;
+		}
+		list.remove(list.indexOf(nodeNum));
+		graph[nodeNum].setVisit(true);
+		search(graph[nodeNum].getNext(), graph);
+	}
+}
+
+
+// 노드 class
+class Node{
+	private int next;
+	private boolean visit;
+	
+	public Node(int next){
+		this.next = next;
+		this.visit = false;
+	}
+	
+	public int getNext(){
+		return next;
+	}
+	public boolean getVisit(){
+		return visit;
+	}
+	
+	public void setVisit(boolean visit){
+		this.visit = visit;
+	}
+	
+}

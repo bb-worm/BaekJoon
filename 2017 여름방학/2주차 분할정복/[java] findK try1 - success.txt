@@ -1,0 +1,74 @@
+package divideconquer;
+
+import java.util.Scanner;
+
+public class FINDK {
+
+	public static void main(String[] args) {
+		
+		Scanner a = new Scanner(System.in);
+		
+		int N, K;
+		int[] array;
+
+		try{
+			N = a.nextInt();
+			K = a.nextInt();
+			
+			array = new int[N];
+			
+			for(int i=0; i<array.length; i++)
+				array[i] = a.nextInt();
+			
+			mergeSort(0, N-1, array);
+
+			System.out.println(array[K-1]);
+
+		}
+		catch(Exception e){
+			System.out.println("Exception occured");
+			System.exit(0);
+		}
+		
+		
+
+	}
+	static void mergeSort(int start, int end, int[] array){
+		if(start<end){
+			int half = (start +end) / 2;
+			mergeSort(start, half, array);
+			mergeSort(half+1, end, array);
+			merge(start, end, half, array);
+		}
+	}
+	static void merge(int start, int end, int half,  int[] array){
+		int[] left = new int[half - start +1];
+		int[] right = new int[end - half];
+		int i, j, k;
+		
+		for(i =0; i<left.length; i++)
+			left[i] = array[start+i];
+			
+		for(i =0; i<right.length; i++)
+			right[i] = array[half+1+i];
+		
+		for(i=0, j=0, k=0; i<left.length && j<right.length; k++){
+			if(left[i] < right[j]){
+				array[start+k] = left[i];
+				i++;
+			}
+			else{
+				array[start+k] = right[j];
+				j++;
+			}
+		}
+		
+		for(; i<left.length; i++, k++)
+			array[start+k] = left[i];
+		for(; j<right.length; j++, k++)
+			array[start+k] = right[j];
+			
+		
+	}
+
+}

@@ -1,0 +1,39 @@
+package dynamicProgramming;
+
+import java.util.Scanner;
+
+public class Fibonacci {
+
+	private static int zero, one;
+	
+	public static void main(String[] args) {
+		
+		Scanner keyboard = new Scanner(System.in);
+		
+		int N = keyboard.nextInt();
+		
+		for(int i = 0; i<N; i++){
+			zero = 0;
+			one = 0;
+			fibonacci(keyboard.nextInt());
+			System.out.println(zero+" " + one);
+		}
+
+	}
+
+	public static void fibonacci(int n){
+		if( n == 0){
+			zero++;
+			return;
+		}
+		else if(n==1){
+			one++;
+			return;
+		}
+		else{
+			fibonacci(n-1);
+			fibonacci(n-2);
+			return;
+		}
+	}	
+}

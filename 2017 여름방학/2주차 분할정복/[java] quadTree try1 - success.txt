@@ -1,0 +1,57 @@
+package divideconquer;
+
+import java.util.Scanner;
+
+public class QuadTree {
+
+	public static void main(String[] args) {
+		
+		Scanner keyboard = new Scanner(System.in);
+		int N;
+		char[][] tree;
+		
+		try{
+			N = Integer.parseInt(keyboard.nextLine());
+			tree = new char[N][N];
+			
+			for(int i=0; i<N; i++)
+				tree[i] = keyboard.nextLine().toCharArray();
+			
+
+			quad(tree, 0, 0, tree.length-1);
+
+			
+		}
+		catch(Exception e){
+			System.out.println("Exception occured");
+			System.exit(0);
+		}
+
+	}
+	
+	static void quad(char[][] tree, int low, int col, int length){
+		if(!conquer(tree, low, col, length)){
+			System.out.print("(");
+			quad(tree, low, col, length/2);
+			quad(tree, low, col+length/2+1, length/2);
+			quad(tree, low+length/2+1, col, length/2);
+			quad(tree, low+length/2+1, col+length/2+1, length/2);
+			System.out.print(")");
+		}
+	}
+	
+	static boolean conquer(char[][] tree, int low, int col, int length){
+		int i,j;
+		char check = tree[low][col];
+		
+		for(i=low; i<low+length+1; i++){
+			for(j=col; j<col+length+1; j++){
+				if(check != tree[i][j])
+					return false;
+			}
+		}
+		System.out.print(check);
+		return true;
+		
+	}
+}

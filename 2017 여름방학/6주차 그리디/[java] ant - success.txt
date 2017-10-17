@@ -1,0 +1,72 @@
+package greedy;
+
+import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Ant {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		
+		int i, j;
+		int cm, antNum;
+		int N = Integer.parseInt(keyboard.readLine());
+		
+		for(i = 0; i<N; i++){
+			String[] str=new String[2];
+			str = keyboard.readLine().split(" ");
+			cm = Integer.parseInt(str[0]);
+			antNum = Integer.parseInt(str[1]);
+			
+			int[] ant = new int[antNum];
+			
+			for(j=0; j<antNum; j++)
+				ant[j] = Integer.parseInt(keyboard.readLine());
+		
+			Arrays.sort(ant);
+			
+			min(cm,ant);
+			max(cm,ant);
+		}	
+		
+		keyboard.close();
+
+	}
+	
+	public static void min(int cm, int[] ant){
+		int half = cm/2;
+		int min = 0;
+		
+		for(int i=1; i<ant.length; i++){
+			if(Math.abs(half - ant[i]) < Math.abs(half - ant[min]))
+				min = i;						
+		}
+		
+		if(half < ant[min])
+			System.out.println(cm - ant[min]);
+		else
+			System.out.println(ant[min]);
+	}
+	
+	
+	public static void max(int cm, int[] ant){
+		int half = cm/2;
+		
+		if(ant[0] < half){
+			if(ant[ant.length-1] < half)
+				System.out.println(cm - ant[0]);
+			else if(cm-ant[0] > ant[ant.length-1])
+				System.out.println(cm-ant[0]);
+			else
+				System.out.println(ant[ant.length-1]);
+		}
+		
+		else
+			System.out.println(ant[ant.length-1]);
+		
+		
+	}
+
+}

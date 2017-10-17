@@ -1,0 +1,54 @@
+package dynamicProgramming;
+
+import java.util.Scanner;
+
+public class NumTri {
+	
+	private static int N=0;
+	private static int[][] tri;
+	private static int[][] sum;
+	
+	public static void main(String[] args) {
+		
+		Scanner keyboard = new Scanner(System.in);
+		
+		int i, j;
+		N = keyboard.nextInt();
+		tri = new int[N][N];
+		sum = new int[N][N];
+		
+		for(i=0; i<N; i++){
+			for(j=0; j<i+1; j++){
+				tri[i][j] = keyboard.nextInt();
+			}
+		}
+		
+		
+		int k=1;
+		sum[0] = tri[0];
+		
+		while(k <N){
+			for(i=0; i<=k; i++){
+				if(i==0)
+					sum[k][i] = sum[k-1][i] + tri[k][i];
+				else if(i==k)
+					sum[k][i] = sum[k-1][i-1] + tri[k][i];
+				else
+					sum[k][i] = Math.max(sum[k-1][i-1], sum[k-1][i]) + tri[k][i];
+			}
+			k++;
+		}
+		
+		int max=0;
+		for(i=1; i<N; i++){
+			if(sum[N-1][N-i] > max)
+				max = sum[N-1][N-i];
+		}
+		
+		System.out.println(max);
+		
+	}
+	
+	
+	
+}

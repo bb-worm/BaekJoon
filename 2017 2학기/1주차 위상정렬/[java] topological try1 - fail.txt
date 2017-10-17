@@ -1,0 +1,116 @@
+package topological;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import java.util.Queue;
+import java.util.LinkedList;
+
+public class GameDevelop {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		Queue<Node> q = new LinkedList<>();
+		
+		int i, j;
+		
+		int N = Integer.parseInt(keyboard.readLine());
+		Node[] node = new Node[N+1];
+		
+		for(i=1; i<=N; i++){
+			String[] str = new String[N+1];
+			str = keyboard.readLine().split(" ");
+			
+			//빈 노드 만들기
+			for(j=1; j<=N; j++)
+				node[i] = new Node();
+			
+			//걸리는 시간 설정
+			node[i].setTime(Integer.parseInt(str[0]));
+			//만들려면 뭐가 필요한지 설정
+			for(j=1; Integer.parseInt(str[j]) != -1; j++){
+				int degree = Integer.parseInt(str[j]);
+				
+				node[degree].addOut(node[i]);							//outdegree 목록에 추가
+				node[i].plusIndegree();										//목록에 추가한 노드의 indegree ++
+			}
+		}
+		
+		//본격적
+		enqueueDegreeZero(node, q);
+		while(!q.isEmpty()){
+			Node a = new Node();
+			a = q.poll();												//Dequeue
+			
+			for(i=0; i<a.out.size(); i++){
+				a.out.get(i).minusIndegree();
+				a.out.get(i).addTime(a.getMakingTime());
+				System.out.println(a.getMakingTime());
+			}
+			enqueueDegreeZero(node, q);
+		}
+		
+		for(i=1; i<=N; i++){
+			System.out.println("making Time: " + node[i].getMakingTime());
+			System.out.println("Time: " + node[i].getTime());
+			System.out.println("Indegree: " + node[i].getIndegree());
+		}
+		
+	}
+	
+	public static void enqueueDegreeZero(Node[] node, Queue<Node> q){
+		for(int i=1; i<node.length; i++)
+			if(node[i].getIndegree() == 0){
+				q.offer(node[i]);
+				node[i].minusIndegree();							//다음에 안 들어가게
+				
+			}
+	}
+
+}
+
+class Node{
+	private int time;
+	private int makingTime;
+	
+	private int indegree;
+	ArrayList<Node> out = new ArrayList<>();
+	
+	public Node(){
+		this.indegree = 0;
+	}
+	
+	public void setTime(int time){
+		this.time = time;
+		this.makingTime = time;
+	}
+	public int getTime(){
+		return this.time;
+	}
+	
+	public void minusIndegree(){
+		this.indegree--;
+	}
+	public int getIndegree(){
+		return this.indegree;
+	}
+	
+	public void plusIndegree(){
+		this.indegree++;
+	}
+	
+	//자기가 가리키는 노드 저장
+	public void addOut(Node i){
+		this.out.add(i);
+	}
+	
+	public void addTime(int t){
+		this.makingTime += t;
+	}
+	public int getMakingTime(){
+		return this.makingTime;
+	}
+	
+}

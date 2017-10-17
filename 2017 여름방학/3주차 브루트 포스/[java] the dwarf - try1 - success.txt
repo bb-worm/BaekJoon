@@ -1,0 +1,87 @@
+package bruteforce;
+
+import java.util.Scanner;
+
+public class TheDwarf {
+	
+	private static int N = 9;
+	private static int K = 7;
+	
+	public static void main(String[] args) {
+		
+		int i, j;
+		int[] all = new int[N];
+		int[] select = new int[K];
+		int sum=0;
+		
+		Scanner keyboard = new Scanner(System.in);
+		
+		for(i=0; i<N; i++){
+			all[i] = keyboard.nextInt();
+			sum += all[i];
+		}
+		
+		Selection(all, select, sum);
+		
+		QuickSort(select, 0, select.length-1);
+		
+		for(i=0; i<K; i++)
+			System.out.println(select[i]);
+	}
+	
+	public static void Selection(int[] all, int[] select, int sum){
+		int i, j, k, l;
+		for(i=0; i<N-1; i++){
+			for(j=i+1; j<N; j++){
+				if(sum - (all[i] + all[j]) == 100){
+					for(k=0, l=0; k<N; k++){
+						if(k==i || k==j)
+							continue;
+						select[l] = all[k];
+						l++;
+					}
+					return;
+				}
+			}
+		}
+	}
+	
+	public static void QuickSort(int[] select, int start, int end){
+		
+		if((end - start) > 0){
+			int pivot;
+			int L, R;
+			int i;
+			int tmp;
+			
+			pivot = end;
+			L = start;
+			R = end-1;
+			
+			for(i=0; ; i++){
+				if(L>R){
+					tmp = select[pivot];
+					select[pivot] = select[L];
+					select[L] = tmp;
+					
+					QuickSort(select, start, L-1);
+					QuickSort(select, L+1, end);
+					return;
+				}
+				
+				if(select[L] > select[pivot] && select[R] < select[pivot]){
+					tmp = select[L];
+					select[L] = select[R];
+					select[R] = tmp;
+					L++;
+					R--;
+				}
+				
+				if(select[L] < select[pivot])
+					L++;
+				if(select[R] > select[pivot])
+					R--;
+			}
+		}
+	}
+}

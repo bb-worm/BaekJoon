@@ -1,0 +1,33 @@
+package greedy;
+
+import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class ATM {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
+		
+		int i;
+		int sum=0;
+		int N = Integer.parseInt(keyboard.readLine());
+		int[] people = new int[N];
+		String[] str = new String[N];
+		
+		str = keyboard.readLine().split(" ");
+		
+		for(i=0; i<people.length; i++)
+			people[i] = Integer.parseInt(str[i]);
+			
+		
+		Arrays.sort(people);
+		
+		for(i=0; i<people.length; i++)
+			sum += people[i]*(N-i);
+		
+		System.out.println(sum);
+		keyboard.close();
+	}
+}
