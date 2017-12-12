@@ -1,0 +1,53 @@
+#include <stdio.h>
+
+
+int main() {
+
+	int people_num, jump;
+	int *location;
+	int left_num;
+	int i;
+	int j;
+	int here = 0;
+
+	scanf("%d %d", &people_num, &jump);
+
+	left_num = people_num;
+	location = (int*)malloc(sizeof(int)*people_num);
+
+	for (i = 0; i < people_num; i++) {
+		location[i] = 1;
+	}
+
+	while (left_num != 1) {
+
+		for (i = 0; i < jump - 1; here++) {
+			if (location[here%people_num])
+				i++;
+		}
+		while (location[here%people_num] == 0)
+			here++;
+
+		location[here%people_num] = 0;
+		here++;
+
+		left_num--;
+	}
+
+	for (i = 0; i < people_num; i++) {
+
+
+		if (location[i] == 1) {
+			if (i == 0) 
+				printf("Pro-attendee\n");
+			
+			else
+				printf("%d", i);
+
+			free(location);
+			return 0;
+		}
+	}
+	free(location);
+	return 0;
+}
